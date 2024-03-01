@@ -1,9 +1,12 @@
+import asyncio
+import json
 import keyboard
 import config
 
+from queue import Queue
 from typing import TypedDict, Any
 from datetime import datetime, timedelta
-from quart import Quart, render_template
+from quart import Quart, Websocket, render_template, copy_current_websocket_context, websocket
 
 
 class HotkeyEvent(TypedDict):
@@ -12,7 +15,7 @@ class HotkeyEvent(TypedDict):
 
 
 app: Quart = Quart(__name__)
-hotkey_events: list[HotkeyEvent] = []
+hotkey_events_ws_queues: set[asyncio.Queue[HotkeyEvent]] = set()
 
 
 @app.template_global("config")
@@ -26,28 +29,31 @@ async def get():
     return await render_template("visualizer.html")
 
 
-@app.get("/events")
-async def data():
-    # get all events and clear them afterwards since they're "read"
-    data = hotkey_events.copy()
-    hotkey_events.clear()
-    return data
+@app.websocket("/")
+async def ws():
+    # accept the websocket connection and add a new event queue
+    await websocket.accept()
+    queue = asyncio.Queue()
+    hotkey_events_ws_queues.add(queue)
+
+    # handle the lifetime of the websocket connection
+    try:
+        while True:
+            await websocket.send_json(await queue.get())
+    finally:
+        hotkey_events_ws_queues.remove(queue)
 
 
 def register_keyboard_hooks() -> None:
     # register all shortcuts defined in the config
     for shortcut in config.config["shortcuts"]:
-        keyboard.add_hotkey(shortcut, on_hotkey_callback, args=[shortcut])  # type: ignore
+        keyboard.add_hotkey(shortcut, on_hotkey_callback, args=[HotkeyEvent(hotkey=shortcut, timestamp=datetime.utcnow())])  # type: ignore
 
 
-def on_hotkey_callback(shortcut: str) -> None:
+def on_hotkey_callback(event: HotkeyEvent) -> None:
     # add the hotkey event
-    hotkey_events.append(HotkeyEvent(hotkey=shortcut, timestamp=datetime.utcnow()))
-
-    # remove all hotkeys older than 30 seconds in case data isn't requested for a longer period
-    for event in hotkey_events:
-        if datetime.utcnow() - event["timestamp"] > timedelta(seconds=30):
-            hotkey_events.remove(event)
+    for queue in hotkey_events_ws_queues:
+        asyncio.run(queue.put(event))
 
 
 # start up

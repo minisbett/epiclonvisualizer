@@ -32,7 +32,7 @@
   align-items: center;
   
   /* make inline css to toggle easier */
-  flex-direction: column-reverse;
+  /* flex-direction: column-reverse; */
 }
 
 
