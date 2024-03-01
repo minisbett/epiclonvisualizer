@@ -1,7 +1,7 @@
-import asyncio
 import keyboard
 import config
 
+from queue import Queue
 from typing import TypedDict
 from datetime import datetime
 from quart import Quart, render_template, websocket
@@ -13,7 +13,7 @@ class HotkeyEvent(TypedDict):
 
 
 app: Quart = Quart(__name__)
-hotkey_events_ws_queues: set[asyncio.Queue[HotkeyEvent]] = set()
+hotkey_events_ws_queues: set[Queue[HotkeyEvent]] = set()
 
 
 @app.get("/")
@@ -26,13 +26,13 @@ async def get():
 async def ws():
     # accept the websocket connection and add a new event queue
     await websocket.accept()
-    queue = asyncio.Queue()
+    queue = Queue()
     hotkey_events_ws_queues.add(queue)
 
     # handle the lifetime of the websocket connection
     try:
         while True:
-           await websocket.send_json(await queue.get())
+           await websocket.send_json(queue.get())
     finally:
         hotkey_events_ws_queues.remove(queue)
 
@@ -46,7 +46,7 @@ def register_keyboard_hooks() -> None:
 def on_hotkey_callback(event: HotkeyEvent) -> None:
     # add the hotkey event to all queues
     for queue in hotkey_events_ws_queues:
-        queue.put_nowait(event)
+        queue.put(event)
 
 
 # start up
