@@ -1,3 +1,4 @@
+import asyncio
 import keyboard
 import config
 
@@ -32,7 +33,8 @@ async def ws():
     # handle the lifetime of the websocket connection
     try:
         while True:
-           await websocket.send_json(queue.get())
+            event = await asyncio.to_thread(queue.get)
+            await websocket.send_json(event)
     finally:
         hotkey_events_ws_queues.remove(queue)
 

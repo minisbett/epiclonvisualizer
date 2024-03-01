@@ -48,7 +48,7 @@ kbd {
               0 8px var(--chin-color),
               2px 4px 4px var(--shadow-color),
               0 -1px 4px var(--shadow-color);
-  background: #fff;
+  background: var(--background-color);
   color: var(--text-color);
   backface-visibility: hidden;
   border: 1px solid var(--border-color);

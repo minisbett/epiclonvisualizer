@@ -49,6 +49,7 @@ default_config: dict[str, Any] = {
     "text-color": "#343a40",
     "subtext-color": "#777",
     "border-color": "#e6e6e6",
+    "background-color": "#fff",
 
     # animation settings
     "animation-duration": "1s",
