@@ -42,7 +42,6 @@ def register_keyboard_hooks() -> None:
 
 def on_hotkey_callback(shortcut: str) -> None:
     # add the hotkey event
-    print(shortcut)
     hotkey_events.append(HotkeyEvent(hotkey=shortcut, timestamp=datetime.utcnow()))
 
     # remove all hotkeys older than 30 seconds in case data isn't requested for a longer period
