@@ -1,0 +1,90 @@
+:root {
+  --chin-color: #d9d9d9;
+  --shadow-color: #adb5bd;
+  --text-color: #343a40;
+  --subtext-color: #777;
+  --border-color: #e6e6e6;
+}
+
+@keyframes fadeout {
+  to {
+    color: transparent;
+    display: none;
+    box-shadow: none;
+    background: transparent;
+    border-color: transparent;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  font-size: 25px;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  width: auto;
+  justify-content: flex-end;
+  align-items: center;
+  
+  /* make inline css to toggle easier */
+  flex-direction: column-reverse;
+}
+
+
+/* button design mainly inspired by https://www.youtube.com/watch?v=M_J3XcG-Bsg */
+
+kbd {
+  position: relative;
+  font-size: 1.25rem;
+  min-width: auto;
+  line-height: 1.5;
+  margin: 0.375rem 0.375rem 0.375rem 0.875rem;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 0 var(--chin-color),
+              0 0px var(--chin-color),
+              0 1px var(--chin-color),
+              0 2px var(--chin-color),
+              0 3px var(--chin-color),
+              0 4px var(--chin-color),
+              0 5px var(--chin-color),
+              0 6px var(--chin-color),
+              0 7px var(--chin-color),
+              0 8px var(--chin-color),
+              2px 4px 4px var(--shadow-color),
+              0 -1px 4px var(--shadow-color);
+  background: #fff;
+  color: var(--text-color);
+  backface-visibility: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+
+  animation-name: fadeout;
+  animation-duration: 1s;
+  animation-delay: 3s;
+  animation-fill-mode: forwards;
+}
+
+kbd::after {
+  content: attr(combo);
+  font-size: 0.6rem;
+  box-sizing: content-box;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0.2rem;
+  color: var(--subtext-color);
+
+  animation-name: inherit;
+  animation-duration: inherit;
+  animation-delay: inherit;
+  animation-fill-mode: inherit;
+}
