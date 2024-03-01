@@ -22,7 +22,7 @@ function connect() {
 
     ws.onclose = (_) => {
         console.log("Websocket disconnected, reconnecting in 3 seconds...");
-        setTimeout(3000, connect);
+        setTimeout(connect, 3000);
     };
 
     ws.onmessage = (event) => {
