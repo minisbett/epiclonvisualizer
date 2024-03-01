@@ -38,8 +38,24 @@ DEFAULT_SHORTCUTS: list[str] = [
 ]
 
 default_config: dict[str, Any] = {
+    "shortcuts": DEFAULT_SHORTCUTS,
+
+    # direction
     "is_horizontal": True,
-    "shortcuts": DEFAULT_SHORTCUTS
+
+    # colors
+    "chin-color": "#d9d9d9",
+    "shadow-color": "#adb5bd",
+    "text-color": "#343a40",
+    "subtext-color": "#777",
+    "border-color": "#e6e6e6",
+
+    # animation settings
+    "animation-duration": "1s",
+    "animation-delay": "5s",
+
+    # font size
+    "font-size": "25px"
 }
 
 config: dict[str, Any] = {}

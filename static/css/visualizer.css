@@ -12,21 +12,18 @@
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
+  font-size: var(--font-size);
   box-sizing: border-box;
-  font-size: 25px;
 }
 
 .container {
   background-color: rgba(0, 0, 0, 0);
   display: flex;
   width: auto;
+  height: 100%;
+  flex-direction: var(--flex-direction);
+  align-items: var(--align-items);
   justify-content: flex-end;
-  align-items: center;
-  flex-direction: column-reverse;
-}
-
-.container[is-horizontal] {
-   flex-direction: row;
 }
 
 
@@ -60,10 +57,9 @@ kbd {
   font-weight: 400;
   text-align: center;
   white-space: nowrap;
-
   animation-name: fadeout;
-  animation-duration: 1s;
-  animation-delay: 3s;
+  animation-duration: var(--animation-duration);
+  animation-delay: var(--animation-delay);
   animation-fill-mode: forwards;
 }
 

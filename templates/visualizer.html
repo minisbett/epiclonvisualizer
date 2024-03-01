@@ -2,19 +2,27 @@
 
 <style>
   :root {
-  --chin-color: #d9d9d9;
-  --shadow-color: #adb5bd;
-  --text-color: #343a40;
-  --subtext-color: #777;
-  --border-color: #e6e6e6;
-}
+    --chin-color: {{ config["chin-color"] }};
+    --shadow-color: {{ config["shadow-color"] }};
+    --text-color: {{ config["text-color"] }};
+    --subtext-color: {{ config["subtext-color"] }};
+    --border-color: {{ config["border-color"] }};
+
+    --font-size: {{ config["font-size"] }};
+    
+    --flex-direction: {{ "row" if config["is_horizontal"] else "column"}};
+    --align-items: {{ "flex-start" if config["is_horizontal"] else "center"}};
+
+    --animation-duration: {{ config["animation-duration"] }};
+    --animation-delay: {{ config["animation-delay"] }};
+  }
 </style>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>subscribe to log off now!!</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/visualizer.css') }}"}>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/visualizer.css') }}">
   <script src="{{ url_for('static', filename='js/visualizer.js') }}"></script>
 </head>
 
