@@ -1,11 +1,3 @@
-:root {
-  --chin-color: #d9d9d9;
-  --shadow-color: #adb5bd;
-  --text-color: #343a40;
-  --subtext-color: #777;
-  --border-color: #e6e6e6;
-}
-
 @keyframes fadeout {
   to {
     color: transparent;
@@ -30,9 +22,11 @@
   width: auto;
   justify-content: flex-end;
   align-items: center;
-  
-  /* make inline css to toggle easier */
-  /* flex-direction: column-reverse; */
+  flex-direction: column-reverse;
+}
+
+.container[is-horizontal] {
+   flex-direction: row;
 }
 
 
