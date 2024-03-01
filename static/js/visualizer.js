@@ -1,12 +1,12 @@
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 // fetches the hotkey events from the events endpoint
 async function getHotkeyEvents() {
-    const response = await fetch("http://localhost:5000/events").catch((e) => {
-        console.error('error fetching data: ', e);
-        return;
-    })
+    const response = await fetch("http://localhost:5000/events").catch(e => console.error(e));
 
     if (!response?.ok) {
-        console.error(`error fetching data (${response?.status || "null"})`);
+        console.error(`error fetching data (${response?.status || "null"}), trying again in 5 seconds.`);
+        await delay(5000);
         return;
     }
 
@@ -30,7 +30,7 @@ async function loop() {
                 // increase the combo and modify the kbd::after content property through the combo attribute
                 last.setAttribute("combo", `x${++combo}`)
                 
-                // reset the fadeout animation on the kbd element and its ::after
+                // reset the fadeout animation on the kbd element
                 last.style.animation = "none";
                 void last.offsetWidth; // trigger reflow
                 last.style.animation = "";
@@ -54,6 +54,10 @@ async function loop() {
 window.addEventListener('load', async () => {
     hotkeys_container = document.getElementById("hotkeys-container");
 
-    // run the loop every 100ms
-    setInterval(loop, 100);
+    // run the loop with a polling rate of 100ms
+    while(true)
+    {
+        await loop();
+        await delay(100);
+    }
 });
