@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=".github/assets/icon.png" />
+![Icon](.github/assets/icon.png)
 
 # Log Off Now Hotkey Visualizer
 
@@ -63,6 +63,8 @@ On first startup, the application creates a `config.json` file in the same direc
 #### Hotkey Style
 
 - **is_horizontal**: Determines the orientation of the hotkey display. When `true`, hotkeys are displayed horizontally, with the most recently pressed hotkey on the right. When `false`, hotkeys are displayed vertically, with the most recently pressed hotkey on the bottom.
+
+![Orientation Graphic](.github/assets/orietation.png)
 
 - **chin-color**: Color of the chin (bottom border) of the hotkey.
 
