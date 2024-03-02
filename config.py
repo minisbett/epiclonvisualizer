@@ -2,7 +2,7 @@ import os.path
 import json
 
 from typing import Any
-
+from utils.logging import Color, log
 
 DEFAULT_HOTKEYS: list[str] = [
     # file
@@ -68,6 +68,13 @@ def load_config() -> None:
         with open("config.json", "w") as file:
             json.dump(default_config, file, indent=2)
             config = default_config
+            
+        log("No config.json found, created default config", Color.YELLOW)
     else:
-        with open("config.json", "r") as file:
-            config = json.load(file)
+        try:
+            with open("config.json", "r") as file:
+                config = json.load(file)
+        except json.decoder.JSONDecodeError as e:
+            log(f"Failed to parse the config file: {e}.", Color.RED)
+            log("Consider deleting it to create a default config.", Color.YELLOW)
+            raise SystemExit
