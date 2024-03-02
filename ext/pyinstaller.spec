@@ -7,10 +7,10 @@ from PyInstaller.building.api import PYZ, EXE
 
 
 a = Analysis(
-    ['main.py'],
+    ['../main.py'],
     pathex=[],
     binaries=[],
-    datas=[("templates/*", "templates"), ("static/js/*", "static/js"), ("static/css/*", "static/css")],
+    datas=[("../templates/*", "templates"), ("../static/js/*", "static/js"), ("../static/css/*", "static/css")],
     hiddenimports=[], 
     hookspath=[],
     runtime_hooks=[],
