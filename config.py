@@ -4,12 +4,11 @@ import json
 from typing import Any
 
 
-DEFAULT_SHORTCUTS: list[str] = [
+DEFAULT_HOTKEYS: list[str] = [
     # file
     "ctrl+s",
     "ctrl+l",
     "ctrl+shift+a",
-    
     # edit
     "ctrl+z",
     "ctrl+y",
@@ -26,23 +25,18 @@ DEFAULT_SHORTCUTS: list[str] = [
     "ctrl+<",
     "ctrl+shift+r",
     "ctrl+shift+s",
-
-    #compose
+    # compose
     "ctrl+shift+d",
     "ctrl+shift+f",
-    
     # timing
     "f6",
     "ctrl+p",
-    "ctrl+shift+p"
+    "ctrl+shift+p",
 ]
 
-default_config: dict[str, Any] = {
-    "shortcuts": DEFAULT_SHORTCUTS,
-
+DEFAULT_STYLE = {
     # direction
     "is_horizontal": True,
-
     # colors
     "chin-color": "#d9d9d9",
     "shadow-color": "#adb5bd",
@@ -50,16 +44,23 @@ default_config: dict[str, Any] = {
     "subtext-color": "#777",
     "border-color": "#e6e6e6",
     "background-color": "#fff",
-
     # animation settings
     "animation-duration": "1s",
     "animation-delay": "5s",
-
     # font size
     "font-size": "25px"
 }
 
+default_config: dict[str, Any] = {
+    "server_configuration": {
+        "port": 8000
+    },
+    "hotkey_style": DEFAULT_STYLE,
+    "shortcuts": DEFAULT_HOTKEYS
+}
+
 config: dict[str, Any] = {}
+
 
 def load_config() -> None:
     global config

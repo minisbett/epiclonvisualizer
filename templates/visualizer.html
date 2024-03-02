@@ -2,22 +2,26 @@
 
 <style>
   :root {
-    --chin-color: {{ config["chin-color"] }};
-    --shadow-color: {{ config["shadow-color"] }};
-    --text-color: {{ config["text-color"] }};
-    --subtext-color: {{ config["subtext-color"] }};
-    --border-color: {{ config["border-color"] }};
-    --background-color: {{ config["background-color"]}};
+    --chin-color: {{ style_config["chin-color"] }};
+    --shadow-color: {{ style_config["shadow-color"] }};
+    --text-color: {{ style_config["text-color"] }};
+    --subtext-color: {{ style_config["subtext-color"] }};
+    --border-color: {{ style_config["border-color"] }};
+    --background-color: {{ style_config["background-color"]}};
 
-    --font-size: {{ config["font-size"] }};
+    --font-size: {{ style_config["font-size"] }};
     
-    --flex-direction: {{ "row" if config["is_horizontal"] else "column"}};
-    --align-items: {{ "flex-start" if config["is_horizontal"] else "center"}};
+    --flex-direction: {{ "row" if style_config["is_horizontal"] else "column"}};
+    --align-items: {{ "flex-start" if style_config["is_horizontal"] else "center"}};
 
-    --animation-duration: {{ config["animation-duration"] }};
-    --animation-delay: {{ config["animation-delay"] }};
+    --animation-duration: {{ style_config["animation-duration"] }};
+    --animation-delay: {{ style_config["animation-delay"] }};
   }
 </style>
+
+<script>
+  const port = "{{ port }}";
+</script>
 
 <head>
   <meta charset="UTF-8">

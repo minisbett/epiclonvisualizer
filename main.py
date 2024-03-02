@@ -1,5 +1,7 @@
 import asyncio
 import keyboard
+import hypercorn.asyncio
+import hypercorn.config
 import config
 
 from queue import Queue
@@ -20,7 +22,7 @@ hotkey_events_ws_queues: set[Queue[HotkeyEvent]] = set()
 @app.get("/")
 async def get():
     # serve the visualizer webpage
-    return await render_template("visualizer.html", config=config.config)
+    return await render_template("visualizer.html", style_config=config.config["hotkey_style"], port=config.config["server_configuration"]["port"])
 
 
 @app.websocket("/")
@@ -55,4 +57,11 @@ def on_hotkey_callback(event: HotkeyEvent) -> None:
 if __name__ == "__main__":
     config.load_config()
     register_keyboard_hooks()
-    app.run()
+    
+    # setup hypercorn
+    hconf = hypercorn.config.Config()
+    hconf.bind = f"127.0.0.1:{config.config['server_configuration']['port']}"
+    
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(hypercorn.asyncio.serve(app, hconf))

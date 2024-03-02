@@ -64,7 +64,7 @@ kbd {
 }
 
 kbd::after {
-  content: attr(combo);
+  content: attr(after-content);
   font-size: 0.6rem;
   box-sizing: content-box;
   display: block;

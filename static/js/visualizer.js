@@ -10,7 +10,7 @@ window.addEventListener('load', async () => {
 
 function connect() {
     console.log("Connecting");
-    ws = new WebSocket("ws://localhost:5000");
+    ws = new WebSocket(`ws://localhost:${port || 8000}`);
 
     ws.onopen = (_) => {
         console.log("Websocket connected.");
@@ -38,7 +38,7 @@ function connect() {
             const last = hotkeys_container.lastChild;
 
             // increase the combo and modify the kbd::after content property through the combo attribute
-            last.setAttribute("combo", `x${++combo}`)
+            last.setAttribute("after-content", `${++combo}x`);
 
             // reset the fadeout animation on the kbd element
             last.style.animation = "none";

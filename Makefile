@@ -9,6 +9,3 @@ endif
 publish:
 	pyinstaller pyinstaller.spec
 	$(RM) build > $(NULL)
-
-run:
-	python3.11 main.py
