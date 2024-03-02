@@ -4,14 +4,9 @@ import hypercorn.asyncio
 import hypercorn.config
 import config
 
-from typing import TypedDict
 from datetime import datetime
 from quart import Quart, render_template, websocket
-
-
-class HotkeyEvent(TypedDict):
-    hotkey: str
-    timestamp: datetime
+from objects.hotkey_event import HotkeyEvent
 
 
 app: Quart = Quart(__name__)
