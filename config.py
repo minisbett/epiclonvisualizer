@@ -56,7 +56,7 @@ default_config: dict[str, Any] = {
         "port": 8000
     },
     "hotkey_style": DEFAULT_STYLE,
-    "shortcuts": DEFAULT_HOTKEYS
+    "hotkeys": DEFAULT_HOTKEYS
 }
 
 config: dict[str, Any] = {}
