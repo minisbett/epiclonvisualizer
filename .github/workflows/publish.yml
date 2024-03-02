@@ -16,6 +16,7 @@ jobs:
       with:
         ref: ${{ github.ref }}
 
+
     - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
@@ -30,6 +31,7 @@ jobs:
     - name: Run PyInstaller
       run: pyinstaller pyinstaller.spec
 
+      
     - name: Upload Artifact
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
