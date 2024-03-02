@@ -2,48 +2,35 @@ name: publish
 
 on:
   push:
-    branches: [ "release" ]
+    tags:
+      - 'v*-release'
 
 permissions:
   contents: write
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref }}
 
-
-    - name: Install Python 3.11
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
 
-    - name: Install build-essential
-      run: apt install build-essential
+    - name: Install Requirements
+      run: |
+        pip install -r ext/requirements.txt
+        pip install pyinstaller
 
     
     - name: Run PyInstaller
-      run: make publish
-
-    - name: Create release
-      id: upload_url
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        gh release create "$GITHUB_REF_NAME" \
-            --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/} ${GITHUB_REF_NAME#v}" \
-            --generate-notes
-        echo "::set-output name=release_id::$(gh release view "$GITHUB_REF_NAME" --json id --repo="$GITHUB_REPOSITORY" | jq -r .id)"
+      run: pyinstaller pyinstaller.spec
 
     - name: Upload Artifact
-      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.upload_url.outputs.url }}
-        asset_path: ./dist/epiclonvisualizer.exe
-        asset_name: epiclonvisualizer.exe
-        asset_content_type: application/octet-stream
+      run: gh release upload "${{ github.ref_name }}" dist/epiclonvisualizer.exe --repo="${GITHUB_REPOSITORY}"

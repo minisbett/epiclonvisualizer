@@ -13,7 +13,6 @@ a = Analysis(
     datas=[("templates/*", "templates"), ("static/js/*", "static/js"), ("static/css/*", "static/css")],
     hiddenimports=[], 
     hookspath=[],
-    hooksconfig={},
     runtime_hooks=[],
     excludes=[],
     noarchive=False,
