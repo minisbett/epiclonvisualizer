@@ -11,4 +11,4 @@ publish:
 	$(RM) build > $(NULL)
 
 run:
-	hypercorn main.py
+	python3.11 main.py
