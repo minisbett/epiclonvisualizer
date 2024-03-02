@@ -39,7 +39,7 @@ If you're using OBS Studio to stream on the streaming platform of your choice, y
 ### Using the websocket directly
 
 All pressed hotkeys are being sent to a local websocket, which can be accessed via `ws://localhost:8000` by default. The payloads sent look as follows:
-```json
+```jsonc
 {
      // as configured in the config, e.g. "ctrl+shift+p"
     "hotkey": "<hotkey>",
