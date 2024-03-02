@@ -1,7 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-from PyInstaller.utils.hooks import collect_data_files 
 from PyInstaller.building.build_main import Analysis
 from PyInstaller.building.api import PYZ, EXE
 

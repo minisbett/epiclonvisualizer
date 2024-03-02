@@ -35,4 +35,6 @@ jobs:
     - name: Upload Artifact
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: gh release upload "${{ github.ref_name }}" dist/epiclonvisualizer.exe --repo="${GITHUB_REPOSITORY}"
+      run: |
+        rename dist/epiclonvisualizer.exe dist/epiclonvisualizer_${{ github.ref_name }}.exe
+        gh release upload "${{ github.ref_name }}" dist/epiclonvisualizer__${{ github.ref_name }}.exe --repo="${GITHUB_REPOSITORY}"
