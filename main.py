@@ -1,5 +1,9 @@
+import sys
+import os.path
+import json
 import asyncio
 import keyboard
+import requests
 import hypercorn.asyncio
 import hypercorn.config
 import config
@@ -64,13 +68,16 @@ async def ws():
     finally:
         hotkey_events_ws_queues.remove(queue)
         log("Websocket disconnected", Color.RED)
-        
-        
+
+
 @app.before_serving
 async def before_serving():
     async with app.test_request_context(""):
-        log(f"Serving app @ http://localhost:{config.config['server_configuration']['port']}/", Color.MAGENTA)
-    
+        log(
+            f"Serving app @ http://localhost:{config.config['server_configuration']['port']}/",
+            Color.MAGENTA,
+        )
+
 
 async def main() -> None:
     # register all configured hotkey hooks
@@ -83,7 +90,40 @@ async def main() -> None:
     await hypercorn.asyncio.serve(app, hconf)
 
 
+def update_check() -> None:
+    # ignore update checks on local executions
+    if not getattr(sys, "frozen", False):
+        log("Running locally, skipping update checks.")
+        return
+
+    log("Checking for updates...")
+    try:
+        # get the latest release tag from the github api
+        url = "https://api.github.com/repos/minisbett/epiclonvisualizer/releases/latest"
+        newest_version = json.loads(requests.get(url).content)["tag_name"]
+        log(f"Latest version: {newest_version}")
+        
+        # get the tag name this app version is from from the version.txt file bundled in the data-files (MEI folder)
+        version = ""
+        with open(os.path.join(sys._MEIPASS, "version.txt"), "r") as file: # type: ignore
+            version = file.read()
+            
+        # notify the result
+        if newest_version == version:
+            log("You are using the latest version.")
+        else:
+            log(f"A newer version is available ({version} -> {newest_version})")
+            log("You can download it here: https://github.com/minisbett/epiclonvisualizer")
+            
+    except Exception as e:
+        log(f"Could not check for updates: {e}", Color.RED)
+        pass
+
+
 # start up
 if __name__ == "__main__":
+    update_check()
+
+    # load the config and run the app
     config.load_config()
     asyncio.run(main())
