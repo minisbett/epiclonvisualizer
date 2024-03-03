@@ -29,7 +29,9 @@ jobs:
 
     
     - name: Run PyInstaller
-      run: pyinstaller ext/pyinstaller.spec
+      run: |
+        echo ${{ github.ref_name }}>>version.txt
+        pyinstaller ext/pyinstaller.spec
 
       
     - name: Upload Artifact
