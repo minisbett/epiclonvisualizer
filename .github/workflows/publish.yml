@@ -30,7 +30,7 @@ jobs:
     
     - name: Run PyInstaller
       run: |
-        echo "${{ github.ref_name }}" > version.txt
+        Set-Content -Path "version.txt" -Value "${{ github.ref_name }}" -NoNewline
         pyinstaller ext/pyinstaller.spec
 
       
