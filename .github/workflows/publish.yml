@@ -30,7 +30,7 @@ jobs:
     
     - name: Run PyInstaller
       run: |
-        echo ${{ github.ref_name }}>version.txt
+        echo "${{ github.ref_name }}" > version.txt
         pyinstaller ext/pyinstaller.spec
 
       
