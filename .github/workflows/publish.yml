@@ -3,7 +3,7 @@ name: publish
 on:
   push:
     tags:
-      - 'v*-release'
+      - "*"
 
 permissions:
   contents: write
@@ -29,7 +29,9 @@ jobs:
 
     
     - name: Run PyInstaller
-      run: pyinstaller ext/pyinstaller.spec
+      run: |
+        echo ${{ github.ref_name }}>>version.txt
+        pyinstaller ext/pyinstaller.spec
 
       
     - name: Upload Artifact

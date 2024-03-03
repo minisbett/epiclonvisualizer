@@ -6,11 +6,16 @@ from PyInstaller.building.api import PYZ, EXE
 
 
 a = Analysis(
-    ['../main.py'],
+    ["../main.py"],
     pathex=[],
     binaries=[],
-    datas=[("../templates/*", "templates"), ("../static/js/*", "static/js"), ("../static/css/*", "static/css")],
-    hiddenimports=[], 
+    datas=[
+        ("../version.txt", "."),
+        ("../templates/*", "templates"),
+        ("../static/js/*", "static/js"),
+        ("../static/css/*", "static/css"),
+    ],
+    hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
     excludes=[],
@@ -24,7 +29,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='epiclonvisualizer',
+    name="epiclonvisualizer",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -37,5 +42,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon="icon.ico"
+    icon="icon.ico",
 )
