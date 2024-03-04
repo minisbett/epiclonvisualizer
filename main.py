@@ -6,13 +6,16 @@ import keyboard
 import requests
 import hypercorn.asyncio
 import hypercorn.config
-import config
 
+from typing import cast, Any
 from datetime import datetime
 from quart import Quart, render_template, websocket, request
 from objects.hotkey_event import HotkeyEvent
 from utils.logging import Color, log, printc
+from config import config
 
+
+GITHUB_REPOSITORY: str = "minisbett/epiclonvisualizer"
 
 app: Quart = Quart(__name__)
 hotkey_events_ws_queues: set[asyncio.Queue[HotkeyEvent]] = set()
@@ -29,7 +32,7 @@ def register_hotkey_hooks(loop: asyncio.AbstractEventLoop) -> None:
             queue.put_nowait(event)
 
     # register all hotkeys defined in the config
-    for hotkey in config.config["hotkeys"]:
+    for hotkey in config["hotkeys"]:
         keyboard.add_hotkey(
             hotkey,
             lambda h=hotkey: asyncio.run_coroutine_threadsafe(
@@ -38,7 +41,7 @@ def register_hotkey_hooks(loop: asyncio.AbstractEventLoop) -> None:
             ),  # type: ignore
         )
 
-    log(f"Registered {len(config.config['hotkeys'])} hotkeys", Color.GREEN)
+    log(f"Registered {len(config['hotkeys'])} hotkeys", Color.GREEN)
 
 
 @app.get("/")
@@ -46,8 +49,8 @@ async def get():
     # serve the visualizer webpage
     return await render_template(
         "visualizer.html",
-        style_config=config.config["hotkey_style"],
-        port=config.config["server_configuration"]["port"],
+        style_config=config["hotkey_style"],
+        port=config["port"],
     )
 
 
@@ -74,7 +77,7 @@ async def ws():
 async def before_serving():
     async with app.test_request_context(""):
         log(
-            f"Serving app @ http://localhost:{config.config['server_configuration']['port']}/",
+            f"Serving app @ http://localhost:{config['port']}/",
             Color.MAGENTA,
         )
 
@@ -85,45 +88,38 @@ async def main() -> None:
 
     # setup hypercorn
     hconf = hypercorn.config.Config()
-    hconf.bind = f"localhost:{config.config['server_configuration']['port']}"
+    hconf.bind = f"localhost:{config['port']}"
     hconf.errorlog = None
     await hypercorn.asyncio.serve(app, hconf)
 
 
 def update_check() -> None:
-    # ignore update checks on local executions
-    if not getattr(sys, "frozen", False):
-        log("Running locally, skipping update checks.")
-        return
-
-    log("Checking for updates...")
-    try:
-        # get the latest release tag from the github api
-        url = "https://api.github.com/repos/minisbett/epiclonvisualizer/releases/latest"
-        newest_version = json.loads(requests.get(url).content)["tag_name"]
-        log(f"Latest version: {newest_version}")
-        
-        # get the tag name this app version is from from the version.txt file bundled in the data-files (MEI folder)
-        version = ""
-        with open(os.path.join(sys._MEIPASS, "version.txt"), "r") as file: # type: ignore
-            version = file.read()
-            
-        # notify the result
+    # get the latest release tag from the github api
+    url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/releases/latest"
+    newest_version = json.loads(requests.get(url).content)["tag_name"]
+    log(f"Latest version: {newest_version}")
+    
+    # compare the fetched tag name with the version.txt file bundled in the data-files (MEI folder)
+    with open(os.path.join(sys._MEIPASS, "version.txt"), "r") as file:  # type: ignore
+        version = file.read()
         if newest_version == version:
             log("You are using the latest version.")
         else:
             log(f"A newer version is available ({version} -> {newest_version})")
-            log("You can download it here: https://github.com/minisbett/epiclonvisualizer")
-            
-    except Exception as e:
-        log(f"Could not check for updates: {e}", Color.RED)
-        pass
+            log(f"You can download it here: https://github.com/{GITHUB_REPOSITORY}")
 
 
-# start up
+# do an update check and run the app
 if __name__ == "__main__":
-    update_check()
+    # ignore update checks on local executions (as opposed to PyInstaller executables)
+    if not getattr(sys, "frozen", False):
+        log("Running locally, skipping update checks.")
+    else:
+        try:
+            log("Checking for updates...")
+            update_check()
+        except Exception as e:
+            log(f"Could not check for updates: {e}", Color.RED)
+            pass
 
-    # load the config and run the app
-    config.load_config()
     asyncio.run(main())
