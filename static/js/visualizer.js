@@ -1,7 +1,6 @@
 let hotkeys_container;
 let lastHotkey;
 let combo = 1;
-let ws;
 
 window.addEventListener('load', async () => {
     hotkeys_container = document.getElementById("hotkeys-container");
@@ -10,17 +9,13 @@ window.addEventListener('load', async () => {
 
 function connect() {
     console.log("Connecting");
-    ws = new WebSocket(`ws://localhost:${port || 8000}`);
+    const ws = new WebSocket(`ws://localhost:${port || 8000}`);
 
-    ws.onopen = (_) => {
-        console.log("Websocket connected.");
-    };
+    ws.onopen = () => console.log("Websocket connected.");
 
-    ws.onerror = (error) => {
-        console.error("Websocket error: ", error);
-    };
+    ws.onerror = (error) => console.error("Websocket error: ", error);
 
-    ws.onclose = (_) => {
+    ws.onclose = () => {
         console.log("Websocket disconnected, reconnecting in 3 seconds...");
         setTimeout(connect, 3000);
     };
@@ -29,7 +24,7 @@ function connect() {
         const data = JSON.parse(event.data);
 
         // delete all kbd elements with display: none, since they already disappeared
-        for (var i = 0; i < hotkeys_container.children.length; i++)
+        for (let i = 0; i < hotkeys_container.children.length; i++)
             if (window.getComputedStyle(hotkeys_container.children[i]).display == "none")
                 hotkeys_container.removeChild(hotkeys_container.children[i]);
 
