@@ -7,7 +7,6 @@ import requests
 import hypercorn.asyncio
 import hypercorn.config
 
-from typing import cast, Any
 from datetime import datetime
 from quart import Quart, render_template, websocket, request
 from objects.hotkey_event import HotkeyEvent
