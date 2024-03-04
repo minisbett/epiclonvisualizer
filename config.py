@@ -90,6 +90,8 @@ def _load_config(filename: str) -> Config:
 
 
 T = TypeVar("T", bound=dict)
+
+
 def _set_defaults_recursive(dictionary: T, default: T) -> None:
     # set the default value for all items of the specified defaults
     for key, value in default.items():

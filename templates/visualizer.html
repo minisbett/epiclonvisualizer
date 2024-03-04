@@ -2,20 +2,20 @@
 
 <style>
   :root {
-    --chin-color: {{ style_config["chin-color"] }};
-    --shadow-color: {{ style_config["shadow-color"] }};
-    --text-color: {{ style_config["text-color"] }};
-    --subtext-color: {{ style_config["subtext-color"] }};
-    --border-color: {{ style_config["border-color"] }};
-    --background-color: {{ style_config["background-color"]}};
+    --chin-color: {{ style_config["chin_color"] }};
+    --shadow-color: {{ style_config["shadow_color"] }};
+    --text-color: {{ style_config["text_color"] }};
+    --subtext-color: {{ style_config["subtext_color"] }};
+    --border-color: {{ style_config["border_color"] }};
+    --background-color: {{ style_config["background_color"]}};
 
-    --font-size: {{ style_config["font-size"] }};
+    --font-size: {{ style_config["font_size"] }};
     
     --flex-direction: {{ "row" if style_config["is_horizontal"] else "column"}};
     --align-items: {{ "flex-start" if style_config["is_horizontal"] else "center"}};
 
-    --animation-duration: {{ style_config["animation-duration"] }};
-    --animation-delay: {{ style_config["animation-delay"] }};
+    --animation-duration: {{ style_config["animation_duration"] }};
+    --animation-delay: {{ style_config["animation_delay"] }};
   }
 </style>
 
