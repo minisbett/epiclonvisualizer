@@ -68,21 +68,21 @@ On first startup, the application creates a `config.json` file in the same direc
 
 - **chin-color**: Color of the chin (bottom border) of the hotkey.
 
-- **shadow-color**: Color of the shadow around the hotkey.
+- **shadow_color**: Color of the shadow around the hotkey.
 
-- **text-color**: Color of the hotkey text displayed.
+- **text_color**: Color of the hotkey text displayed.
 
-- **subtext-color**: Color of the "combo" text displayed.
+- **subtext_color**: Color of the "combo" text displayed.
 
-- **border-color**: Color of the border around the hotkey.
+- **border_color**: Color of the border around the hotkey.
 
-- **background-color**: Background color of the hotkey.
+- **background_color**: Background color of the hotkey.
 
-- **animation-duration**: Duration of the fade-out animation.
+- **animation_duration**: Duration of the fade-out animation.
 
-- **animation-delay**: Delay before a hotkey fades out.
+- **animation_delay**: Delay before a hotkey fades out.
 
-- **font-size**: Size of the font used for displaying hotkeys.
+- **font_size**: Size of the font used for displaying hotkeys.
 
 ### Hotkeys
 
