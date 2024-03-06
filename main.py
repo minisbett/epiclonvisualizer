@@ -105,7 +105,7 @@ def update_check() -> None:
             log("You are using the latest version.")
         else:
             log(f"A newer version is available ({version} -> {newest_version})")
-            log(f"You can download it here: https://github.com/{GITHUB_REPOSITORY}")
+            log(f"You can download it here: https://github.com/{GITHUB_REPOSITORY}/releases/latest")
 
 
 # do an update check and run the app
