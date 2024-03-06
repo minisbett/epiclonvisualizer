@@ -41,6 +41,7 @@ _DEFAULT_CONFIG: Config = Config(
         "ctrl+s",
         "ctrl+l",
         "ctrl+shift+a",
+        "ctrl+o",
         "ctrl+z",
         "ctrl+y",
         "ctrl+x",
