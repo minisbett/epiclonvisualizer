@@ -27,6 +27,7 @@ _DEFAULT_CONFIG: Config = Config(
     port=8000,
     hotkey_style=_HotkeyStyleConfig(
         is_horizontal=True,
+        fill_height=False,
         chin_color="#d9d9d9",
         shadow_color="#adb5bd",
         text_color="#343a40",
