@@ -1,6 +1,7 @@
 from enum import IntEnum
 from datetime import datetime
 
+
 # console color codes
 class Color(IntEnum):
     BLACK = 30
@@ -25,9 +26,11 @@ class Color(IntEnum):
 
     def __repr__(self) -> str:
         return f"\x1b[{self.value}m"
-    
+
+
 def printc(msg: str, color: Color = Color.RESET, nl: bool = True) -> None:
     print(f"{color!r}{msg}{Color.RESET!r}", end="\n" if nl else "")
+
 
 def log(msg: str, color: Color = Color.RESET, nl: bool = True) -> None:
     printc(f"[{datetime.now().strftime('%H:%M:%S')}] ", Color.GRAY, nl=False)
