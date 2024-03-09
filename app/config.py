@@ -62,6 +62,8 @@ _DEFAULT_CONFIG: Config = Config(
         "f6",
         "ctrl+p",
         "ctrl+shift+p",
+        "ctrl+b",
+        "ctrl+shift+b"
     ],
 )
 
