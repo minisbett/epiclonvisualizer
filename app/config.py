@@ -1,10 +1,10 @@
 import json
 
 from typing import TypedDict, TypeVar
-from utils.logging import Color, log
+from app.logging import Color, log
 
 
-class _HotkeyStyleConfig(TypedDict):
+class HotkeyStyleConfig(TypedDict):
     is_horizontal: bool
     chin_color: str
     shadow_color: str
@@ -19,13 +19,13 @@ class _HotkeyStyleConfig(TypedDict):
 
 class Config(TypedDict):
     port: int
-    hotkey_style: _HotkeyStyleConfig
+    hotkey_style: HotkeyStyleConfig
     hotkeys: list[str]
 
 
 _DEFAULT_CONFIG: Config = Config(
     port=8000,
-    hotkey_style=_HotkeyStyleConfig(
+    hotkey_style=HotkeyStyleConfig(
         is_horizontal=True,
         chin_color="#d9d9d9",
         shadow_color="#adb5bd",
@@ -68,28 +68,34 @@ _DEFAULT_CONFIG: Config = Config(
 )
 
 
-def _load_config(filename: str) -> Config:
+_CONFIG_FILENAME: str = "config.json"
+
+config: Config
+
+
+def load() -> None:
     # load the config from the specified file
-    config = {}
+    _config = {}
     try:
-        config = json.load(open(filename, "r"))
+        _config = json.load(open(_CONFIG_FILENAME, "r"))
     except json.decoder.JSONDecodeError as e:
         log(f"Failed to parse the config file: {e}.", Color.RED)
         log(
-            "Consider deleting the config.json file to create a new default config.",
+            "You can delete the config.json file to create a new default config.",
             Color.YELLOW,
         )
         raise SystemExit
     except FileNotFoundError:
-        log("No config.json found, creating a default config.", Color.YELLOW)
+        log("No config.json found, creating a default config.", Color.LYELLOW)
 
     # ensure default values for all unset properties recursively (sub-dicts)
-    _set_defaults_recursive(config, _DEFAULT_CONFIG)
+    _set_defaults_recursive(_config, _DEFAULT_CONFIG)
 
     # save the config in order to add properties missing in the file with their default values
-    json.dump(config, open(filename, "w"), indent=4)
+    json.dump(_config, open(_CONFIG_FILENAME, "w"), indent=4)
 
-    return Config(Config(**config))
+    global config
+    config = Config(Config(**_config))
 
 
 T = TypeVar("T", bound=dict)
@@ -104,6 +110,3 @@ def _set_defaults_recursive(dictionary: T, default: T) -> None:
         if isinstance(value, dict):
             dictionary.setdefault(key, {})
             _set_defaults_recursive(dictionary[key], value)
-
-
-config: Config = _load_config("config.json")
