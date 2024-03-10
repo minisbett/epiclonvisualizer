@@ -5,6 +5,7 @@ import app.utils
 import app.config
 import app.handlers.web_handler
 import app.handlers.hotkey_handler
+import app.handlers.tray_handler
 
 from quart import Quart
 from app.logging import Color, log
@@ -26,6 +27,9 @@ async def before_serving():
 async def main() -> None:
     # load the config and run the app
     app.config.load()
+
+    # run the system tray
+    await app.handlers.tray_handler.run()
 
     # register all configured hotkey hooks
     app.handlers.hotkey_handler.register_hotkey_hooks(asyncio.get_running_loop())

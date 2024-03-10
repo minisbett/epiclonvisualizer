@@ -19,12 +19,14 @@ class HotkeyStyleConfig(TypedDict):
 
 class Config(TypedDict):
     port: int
+    minimize_to_system_tray: bool
     hotkey_style: HotkeyStyleConfig
     hotkeys: list[str]
 
 
 _DEFAULT_CONFIG: Config = Config(
     port=8000,
+    minimize_to_system_tray=False,
     hotkey_style=HotkeyStyleConfig(
         is_horizontal=True,
         chin_color="#d9d9d9",
