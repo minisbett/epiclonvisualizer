@@ -79,14 +79,13 @@ def load() -> None:
     try:
         _config = json.load(open(_CONFIG_FILENAME, "r"))
     except json.decoder.JSONDecodeError as e:
-        log(f"Failed to parse the config file: {e}.", Color.RED)
+        log(f"{Color.RED}Failed to parse the config file: {e}.")
         log(
-            "You can delete the config.json file to create a new default config.",
-            Color.YELLOW,
+            f"{Color.LYELLOW}You can delete the config.json file to create a new default config."
         )
         raise SystemExit
     except FileNotFoundError:
-        log("No config.json found, creating a default config.", Color.LYELLOW)
+        log(f"{Color.LYELLOW}No config.json found, creating a default config.")
 
     # ensure default values for all unset properties recursively (sub-dicts)
     _set_defaults_recursive(_config, _DEFAULT_CONFIG)

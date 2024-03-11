@@ -5,7 +5,7 @@ import app.handlers.web_handler
 
 from typing import TypedDict
 from datetime import datetime
-from app.logging import Color, log, printc
+from app.logging import Color, log
 
 
 class HotkeyEvent(TypedDict):
@@ -24,13 +24,12 @@ def register_hotkey_hooks(loop: asyncio.AbstractEventLoop) -> None:
             ),  # type: ignore
         )
 
-    log(f"Registered {len(app.config.config['hotkeys'])} hotkeys", Color.GREEN)
+    log(f"{Color.GREEN}Registered {len(app.config.config['hotkeys'])} hotkeys")
 
 
 # the callback called via asyncio.run_coroutine_threadsafe, sending the event to connected websockets
 async def _hotkey_callback(event: HotkeyEvent) -> None:
-    log("Detected hotkey ", Color.LCYAN, nl=False)
-    printc(event["hotkey"])
+    log(f"{Color.LCYAN}Detected hotkey {Color.RESET}{event['hotkey']}")
 
     # add the hotkey event to all queues
     for queue in app.handlers.web_handler.ws_queues:

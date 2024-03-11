@@ -41,7 +41,7 @@ async def _get_latest_release() -> str | None:
         response = requests.get(f"https://api.{LATEST_RELEASE_URL[8:]}")
         return json.loads(response.content)["tag_name"]
     except Exception as e:
-        log(f"Update check failed: {e}", Color.RED)
+        log(f"{Color.RED}Update check failed: {e}")
 
 
 def _is_pyinstaller_executable() -> bool:
