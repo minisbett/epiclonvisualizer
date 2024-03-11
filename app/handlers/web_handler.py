@@ -26,7 +26,7 @@ async def ws():
     queue = asyncio.Queue()
     ws_queues.add(queue)
 
-    log("Websocket connection established", Color.GREEN)
+    log(f"{Color.GREEN}Websocket connection established")
 
     # handle the lifetime of the websocket connection
     try:
@@ -34,4 +34,4 @@ async def ws():
             await websocket.send_json(await queue.get())
     finally:
         ws_queues.remove(queue)
-        log("Websocket disconnected", Color.RED)
+        log(f"{Color.RED}Websocket disconnected")

@@ -5,6 +5,7 @@ import app.utils
 import app.config
 import app.handlers.web_handler
 import app.handlers.hotkey_handler
+import app.logging
 
 from quart import Quart
 from app.logging import Color, log
@@ -18,12 +19,14 @@ quart.register_blueprint(app.handlers.web_handler.blueprint)
 async def before_serving():
     async with quart.test_request_context(""):
         log(
-            f"Serving app @ http://localhost:{app.config.config['port']}/",
-            Color.MAGENTA,
+            f"{Color.MAGENTA}Serving app @ http://localhost:{app.config.config['port']}/"
         )
 
 
 async def main() -> None:
+    # setup logging
+    app.logging.initialize()
+    
     # load the config and run the app
     app.config.load()
 
