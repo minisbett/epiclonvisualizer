@@ -1,5 +1,6 @@
 import asyncio
 import keyboard
+import app.utils
 import app.config
 import app.handlers.web_handler
 
@@ -29,6 +30,13 @@ def register_hotkey_hooks(loop: asyncio.AbstractEventLoop) -> None:
 
 # the callback called via asyncio.run_coroutine_threadsafe, sending the event to connected websockets
 async def _hotkey_callback(event: HotkeyEvent) -> None:
+    # if the osu editor only option is enabled, perform the check
+    if (
+        app.config.config["osu_editor_only"]
+        and not app.utils.is_active_window_osu_editor()
+    ):
+        return
+
     log(f"{Color.LCYAN}Detected hotkey {Color.RESET}{event['hotkey']}")
 
     # add the hotkey event to all queues

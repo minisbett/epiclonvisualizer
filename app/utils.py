@@ -2,6 +2,7 @@ import sys
 import json
 import os.path
 import requests
+import pyautogui
 
 from app.logging import Color, log
 
@@ -40,6 +41,11 @@ async def _get_latest_release() -> str | None:
         return json.loads(response.content)["tag_name"]
     except Exception as e:
         log(f"{Color.RED}Update check failed: {e}")
+
+
+def is_active_window_osu_editor() -> bool:
+    title: str = pyautogui.getActiveWindowTitle()  # type: ignore
+    return title.startswith("osu!  -") and title.endswith(".osu")
 
 
 def _is_pyinstaller_executable() -> bool:
