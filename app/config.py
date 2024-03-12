@@ -6,6 +6,7 @@ from app.logging import Color, log
 
 class HotkeyStyleConfig(TypedDict):
     is_horizontal: bool
+    fill_height: bool
     chin_color: str
     shadow_color: str
     text_color: str
