@@ -25,8 +25,7 @@ async def before_serving():
 
 async def main() -> None:
     # setup logging
-    app.logging.initialize()
-
+    app.logging.start_logger()
     # run update checks
     await app.utils.run_update_check()
     

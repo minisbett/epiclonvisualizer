@@ -1,5 +1,9 @@
 import colorama
 
+import threading
+import tkinter as tk
+from tkinter import scrolledtext
+
 from enum import IntEnum
 from datetime import datetime
 
@@ -31,10 +35,34 @@ class Color(IntEnum):
     
 
 def initialize() -> None:
-    # colorama provides ANSI support for coloring in the console
+    # Colorama provides ANSI support for coloring in the console
+    colorama.init()
+    # Just in case you're running on Windows
     colorama.just_fix_windows_console()
 
+def log_to_tk(msg: str, text_widget: scrolledtext.ScrolledText) -> None:
+    # Appends the specified message with a timestamp to the text widget
+    colored_msg = f"{Color.GRAY}[{datetime.now().strftime('%H:%M:%S')}] {Color.RESET}{msg}{Color.RESET}"
+    text_widget.insert('end', colored_msg + '\n')
+    text_widget.see(tk.END)  # Scroll to the end to always show the latest message
 
 def log(msg: str) -> None:
-    # prints the specified message with a timestamp
-    print(f"{Color.GRAY}[{datetime.now().strftime('%H:%M:%S')}] {Color.RESET}{msg}{Color.RESET}")
+    global text_widget
+    if 'text_widget' in globals():
+        log_to_tk(msg, text_widget)
+    else:
+        print("Text widget not initialized yet. Skipping log message.")
+
+# Tkinter GUI setup
+def create_gui() -> None:
+    global text_widget
+    root = tk.Tk()
+    root.title("Log Viewer")
+    text_widget = scrolledtext.ScrolledText(root, wrap="word")
+    text_widget.pack(expand=True, fill="both")
+    initialize()
+    root.mainloop()
+    
+def start_logger() -> None:
+    gui_thread = threading.Thread(target=create_gui, daemon=True)
+    gui_thread.start()
