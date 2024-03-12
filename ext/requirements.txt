@@ -1,3 +1,5 @@
 quart==0.19.4
 keyboard==0.13.5
 requests==2.31.0
+colorama==0.4.6
+pyautogui==0.9.54

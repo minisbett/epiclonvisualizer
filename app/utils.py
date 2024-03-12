@@ -2,14 +2,13 @@ import sys
 import json
 import os.path
 import requests
+import pyautogui
 
 from app.logging import Color, log
 
 
 VERSION_TXT: str = os.path.join(getattr(sys, "_MEIPASS", ""), "version.txt")  # type: ignore
-LATEST_RELEASE_URL: str = (
-    "https://github.com/minisbett/epiclonvisualizer/releases/latest"
-)
+GH_LATEST: str = "minisbett/epiclonvisualizer/releases/latest"
 
 
 async def run_update_check() -> None:
@@ -30,7 +29,7 @@ async def run_update_check() -> None:
     with open(VERSION_TXT, "r") as file:  # type: ignore
         if (version := file.read()) != latest:
             log(f"A newer version is available ({version} -> {latest})")
-            log(f"You can download it here: {LATEST_RELEASE_URL}")
+            log(f"You can download it here: https://github.com/{GH_LATEST}")
         else:
             log("You are using the latest version.")
 
@@ -38,10 +37,15 @@ async def run_update_check() -> None:
 async def _get_latest_release() -> str | None:
     try:
         # get the latest release tag from the github api
-        response = requests.get(f"https://api.{LATEST_RELEASE_URL[8:]}")
+        response = requests.get(f"https://api.github.com/repos/{GH_LATEST}")
         return json.loads(response.content)["tag_name"]
     except Exception as e:
-        log(f"Update check failed: {e}", Color.RED)
+        log(f"{Color.RED}Update check failed: {e}")
+
+
+def is_active_window_osu_editor() -> bool:
+    title: str = pyautogui.getActiveWindowTitle()  # type: ignore
+    return title.startswith("osu!  -") and title.endswith(".osu")
 
 
 def _is_pyinstaller_executable() -> bool:
