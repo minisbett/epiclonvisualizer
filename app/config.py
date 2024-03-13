@@ -2,6 +2,7 @@ import json
 
 from typing import TypedDict, TypeVar
 from app.logging import Color, log
+from app.handlers import config_update_handler
 
 
 class HotkeyStyleConfig(TypedDict):
@@ -65,7 +66,7 @@ _DEFAULT_CONFIG: Config = Config(
         "ctrl+p",
         "ctrl+shift+p",
         "ctrl+b",
-        "ctrl+shift+b"
+        "ctrl+shift+b",
     ],
 )
 
@@ -93,7 +94,9 @@ def load() -> None:
     _set_defaults_recursive(_config, _DEFAULT_CONFIG)
 
     # save the config in order to add properties missing in the file with their default values
+    config_update_handler.ignore_updates = True # prevent watchdog from capturing this save
     json.dump(_config, open(_CONFIG_FILENAME, "w"), indent=4)
+    config_update_handler.ignore_updates = False
 
     global config
     config = Config(Config(**_config))

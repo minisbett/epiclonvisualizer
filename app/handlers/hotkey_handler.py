@@ -2,11 +2,11 @@ import asyncio
 import keyboard
 import app.utils
 import app.config
-import app.handlers.web_handler
 
 from typing import TypedDict
 from datetime import datetime
 from app.logging import Color, log
+from app.handlers import web_handler
 
 
 class HotkeyEvent(TypedDict):
@@ -40,5 +40,5 @@ async def _hotkey_callback(event: HotkeyEvent) -> None:
     log(f"{Color.LCYAN}Detected hotkey {Color.RESET}{event['hotkey']}")
 
     # add the hotkey event to all queues
-    for queue in app.handlers.web_handler.ws_queues:
+    for queue in web_handler.ws_queues:
         queue.put_nowait(event)
