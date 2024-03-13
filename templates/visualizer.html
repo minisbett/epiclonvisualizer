@@ -9,10 +9,10 @@
     --border-color: {{ style_config["border_color"] }};
     --background-color: {{ style_config["background_color"]}};
 
-    --font-size: {{ "27vh" if style_config["fill_height"] else style_config["font_size"] }};
+    --font-size: {{ "27vh" if style_config["fill_height"] and style_config["is_horizontal"] else style_config["font_size"] }};
     
     --flex-direction: {{ "row" if style_config["is_horizontal"] else "column" }};
-    --align-items: {{ "flex-start" if style_config["is_horizontal"] or style_config["fill_height"] else "center" }};
+    --align-items: {{ "flex-start" if style_config["is_horizontal"] and not style_config["fill_height"] else "center" }};
 
     --animation-duration: {{ style_config["animation_duration"] }};
     --animation-delay: {{ style_config["animation_delay"] }};
