@@ -66,6 +66,8 @@ On first startup, the application creates a `config.json` file in the same direc
 
 ![Orientation Graphic](.github/assets/orietation.png)
 
+- **fill_height**: If true, the font size of the hotkeys is changed so that the hotkeys fill the whole height of the browser. Only works if `is_horizontal` is `true`.
+
 - **chin-color**: Color of the chin (bottom border) of the hotkey.
 
 - **shadow_color**: Color of the shadow around the hotkey.
