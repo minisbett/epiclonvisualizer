@@ -20,12 +20,14 @@ class HotkeyStyleConfig(TypedDict):
 
 class Config(TypedDict):
     port: int
+    osu_editor_only: bool
     hotkey_style: HotkeyStyleConfig
     hotkeys: list[str]
 
 
 _DEFAULT_CONFIG: Config = Config(
     port=8000,
+    osu_editor_only=False,
     hotkey_style=HotkeyStyleConfig(
         is_horizontal=True,
         fill_height=False,

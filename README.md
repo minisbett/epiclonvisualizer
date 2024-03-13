@@ -56,9 +56,9 @@ On first startup, the application creates a `config.json` file in the same direc
 
 ### Configuration options
 
-#### Server Configuration
+- **port**: Specifies the port number on which the server runs. Default is 8000.
 
-- **Port**: Specifies the port number on which the server runs. Default is 8000.
+- **osu_editor_only**: If true, hotkeys are only detected if the currently active window is the osu! editor.
 
 #### Hotkey Style
 
