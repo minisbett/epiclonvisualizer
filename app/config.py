@@ -7,6 +7,7 @@ from app.logging import Color, log
 class HotkeyStyleConfig(TypedDict):
     is_horizontal: bool
     fill_height: bool
+    max_simultaenous_keys: int
     chin_color: str
     shadow_color: str
     text_color: str
@@ -31,6 +32,7 @@ _DEFAULT_CONFIG: Config = Config(
     hotkey_style=HotkeyStyleConfig(
         is_horizontal=True,
         fill_height=False,
+        max_simultaenous_keys=-1,
         chin_color="#d9d9d9",
         shadow_color="#adb5bd",
         text_color="#343a40",
