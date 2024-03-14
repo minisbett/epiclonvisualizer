@@ -42,6 +42,10 @@ function connect() {
             return;
         }
 
+        // if a maximum amount of simultaenous keys is set and we're at the maximum, delete the oldest one
+        if ((max_keys || -1) > -1 && hotkeys_container.children.length == max_keys)
+            hotkeys_container.removeChild(hotkeys_container.children[0])
+
         // otherwise, create a new kbd-element
         const elem = document.createElement("kbd");
         elem.innerHTML = lastHotkey = data.hotkey;
